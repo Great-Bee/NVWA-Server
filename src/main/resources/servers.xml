@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+    <!--Server Config-->
+    <import resource="classpath:server_config.xml"/>
+
+    <!--Common-->
+    <import resource="classpath:conf/base/server/common_server.xml"/>
+    <!--Security-->
+    <import resource="classpath:conf/security/server/security_server.xml"/>
+    <!--Zeus-->
+    <import resource="classpath:conf/zeus/server/zeus_server.xml"/>
+    <!--Task-->
+    <import resource="classpath:conf/task/server/task_server.xml"/>
+    <!--Message-->
+    <import resource="classpath:conf/message/server/message_server.xml"/>
+
+    <!-- NvwaServer -->
+    <import resource="classpath:conf/nvwa/server/nvwa_server.xml"/>
+    <!-- Nvwa Server Event -->
+    <import resource="classpath:conf/nvwa/server/nvwa_event.xml"/>
+    <!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
+    <context:component-scan base-package="com.xiwa"/>
+    <context:annotation-config/>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+</beans>

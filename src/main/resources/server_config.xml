@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <!--Properties Configuration-->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:config.properties"/>
+    </bean>
+
+    <!--Target DATA BASE-->
+    <!--Proxool Data Source-->
+    <bean id="defaultDataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+        <property name="driver" value="${db.default.connection.driver_class}"/>
+        <property name="driverUrl" value="${db.default.proxool.connection.url}"/>
+        <property name="user" value="${db.default.connection.username}"/>
+        <property name="password" value="${db.default.connection.password}"/>
+
+        <property name="alias" value="${db.default.proxool.alias}"/>
+        <property name="houseKeepingSleepTime" value="${db.default.proxool.houseKeepingSleepTime}"/>
+        <property name="prototypeCount" value="${db.default.proxool.prototypeCount}"/>
+        <property name="maximumConnectionCount" value="${db.default.proxool.maximumConnectionCount}"/>
+        <property name="minimumConnectionCount" value="${db.default.proxool.minimumConnectionCount}"/>
+    </bean>
+
+    <!--JDBC Template-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="defaultDataSource"/>
+    </bean>
+
+    <!--Hibernate Session Factory-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="defaultDataSource"/>
+        <property name="mappingResources">
+            <list>
+                <!--Base-->
+                <value>conf/base/db/Base.hbm.xml</value>
+
+                <!--Message-->
+                <value>conf/message/db/Message.hbm.xml</value>
+
+                <!--Security-->
+                <value>conf/security/db/Security.hbm.xml</value>
+
+                <!--Tak-->
+                <value>conf/task/db/Task.hbm.xml</value>
+
+                <!--Zeus-->
+                <value>conf/zeus/db/Zeus.hbm.xml</value>
+                <value>conf/zeus/db/Trinity.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.generate_statistics">${db.default.hibernate.generate_statistics}</prop>
+                <prop key="hibernate.dialect">${db.default.hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${db.default.hibernate.show_sql}</prop>
+                <prop key="hibernate.cache.use_query_cache">${db.default.hibernate.cache.use_query_cache}</prop>
+                <prop key="hibernate.cache.use_second_level_cache">
+                    ${db.default.hibernate.cache.use_second_level_cache}
+                </prop>
+                <prop key="hibernate.cache.provider_class">${db.default.hibernate.cache.provider_class}</prop>
+                <prop key="hibernate.autoReconnect">${db.default.hibernate.autoReconnect}</prop>
+            </props>
+        </property>
+    </bean>
+    <!--Target DATA BASE END-->
+
+    <!--NVWA CONFIGS DATA BASE-->
+    <!--NVWA Proxool Data Source-->
+    <bean id="nvwaConfigsDataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+        <property name="driver" value="${nvwa.configs.db.default.connection.driver_class}"/>
+        <property name="driverUrl" value="${nvwa.configs.db.default.proxool.connection.url}"/>
+        <property name="user" value="${nvwa.configs.db.default.connection.username}"/>
+        <property name="password" value="${nvwa.configs.db.default.connection.password}"/>
+
+        <property name="alias" value="${nvwa.configs.default.proxool.alias}"/>
+        <property name="houseKeepingSleepTime" value="${nvwa.db.default.proxool.houseKeepingSleepTime}"/>
+        <property name="prototypeCount" value="${nvwa.db.default.proxool.prototypeCount}"/>
+        <property name="maximumConnectionCount" value="${nvwa.db.default.proxool.maximumConnectionCount}"/>
+        <property name="minimumConnectionCount" value="${nvwa.db.default.proxool.minimumConnectionCount}"/>
+    </bean>
+
+    <!--NVWA JDBC Template-->
+    <bean id="nvwaConfigsTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="nvwaConfigsDataSource"/>
+    </bean>
+
+    <!--NVWA Hibernate Session Factory-->
+    <bean id="nvwaConfigsSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="nvwaConfigsDataSource"/>
+        <property name="mappingResources">
+            <list>
+                <!--nvwa configs-->
+                <value>conf/nvwa/db/nvwa_configs.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.generate_statistics">${db.default.hibernate.generate_statistics}</prop>
+                <prop key="hibernate.dialect">${db.default.hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${db.default.hibernate.show_sql}</prop>
+            </props>
+        </property>
+    </bean>
+    <!--NVWA CONFIGS DATA BASE END-->
+
+    <!--NVWA BASE DATA BASE-->
+    <bean id="nvwaBaseDataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+        <property name="driver" value="${nvwa.base.db.default.connection.driver_class}"/>
+        <property name="driverUrl" value="${nvwa.base.db.default.proxool.connection.url}"/>
+        <property name="user" value="${nvwa.base.db.default.connection.username}"/>
+        <property name="password" value="${nvwa.base.db.default.connection.password}"/>
+
+        <property name="alias" value="${nvwa.base.default.proxool.alias}"/>
+        <property name="houseKeepingSleepTime" value="${nvwa.db.default.proxool.houseKeepingSleepTime}"/>
+        <property name="prototypeCount" value="${nvwa.db.default.proxool.prototypeCount}"/>
+        <property name="maximumConnectionCount" value="${nvwa.db.default.proxool.maximumConnectionCount}"/>
+        <property name="minimumConnectionCount" value="${nvwa.db.default.proxool.minimumConnectionCount}"/>
+    </bean>
+
+    <!--NVWA JDBC Template-->
+    <bean id="nvwaBaseTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="nvwaBaseDataSource"/>
+    </bean>
+
+    <!--NVWA Hibernate Session Factory-->
+    <bean id="nvwaBaseSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="nvwaBaseDataSource"/>
+        <property name="mappingResources">
+            <list>
+                <!--nvwa base-->
+                <value>conf/nvwa/db/nvwa_base.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.generate_statistics">${db.default.hibernate.generate_statistics}</prop>
+                <prop key="hibernate.dialect">${db.default.hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${db.default.hibernate.show_sql}</prop>
+            </props>
+        </property>
+    </bean>
+    <!--NVWA BASE DATA BASE END-->
+</beans>

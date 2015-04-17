@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <display-name>NVWA Product</display-name>
+
+    <welcome-file-list>
+        <welcome-file>default.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <!--IOC Container-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/classes/servers.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+    <!--error page-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+
+    <!-- spring mvc -->
+    <!-- access session check -->
+    <filter>
+        <filter-name>accessLogFilter</filter-name>
+        <filter-class>com.xiwa.nvwa.interceptor.NVWASessionInterceptor</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>accessLogFilter</filter-name>
+        <url-pattern>/nvwa/*</url-pattern>
+    </filter-mapping>
+    <servlet>
+        <servlet-name>nvwaProducer</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>nvwaProducer</servlet-name>
+        <url-pattern>/nvwa/*</url-pattern>
+        <!--nvwa-user-->
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>nvwaUser</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>nvwaUser</servlet-name>
+        <url-pattern>/nvwaUser/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>nvwaTask</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>nvwaTask</servlet-name>
+        <url-pattern>/nvwaTask/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>nvwaFile</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>nvwaFile</servlet-name>
+        <url-pattern>/nvwaFile/*</url-pattern>
+    </servlet-mapping>
+    <!--nvwa-user-->
+    <servlet>
+        <servlet-name>nvwaSecurity</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>nvwaSecurity</servlet-name>
+        <url-pattern>/nvwaSecurity/*</url-pattern>
+    </servlet-mapping>
+</web-app>
